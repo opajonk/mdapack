@@ -4,7 +4,6 @@ this_file = mfilename('fullpath');
 
 % Set paths
 addpath( mdapack_path );                       % main directory
-addpath([mdapack_path filesep 'bin']);         % binary stuff
 
 % initialize 3rd party toolboxes by executing all M-files in the "thirdparty" directory
 
