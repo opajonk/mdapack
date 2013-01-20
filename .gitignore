@@ -1,0 +1,10 @@
+/state
+/tex
+*.aux
+*.m~
+*.log
+*.pfg
+*.dvi
+*.ps
+*.tex~
+*.asv

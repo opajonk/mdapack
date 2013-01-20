@@ -1,0 +1,127 @@
+MDAPACK - A MATLAB Data Assimilation Package
+
+Copyright (C) 2010 - 2013 Oliver Pajonk (except for some third party
+   components, see section (4) below)
+
+===========================================================================
+(1) Prerequisites
+===========================================================================
+
+This software uses the SGLIB from Elmar Zander. It be available in the
+directory "thirdparty" before you can run most of the parts of this
+software. If you checked out MDAPACK via Git it should be already present 
+by means of a Git "submodule".
+
+===========================================================================
+(2) Usage
+===========================================================================
+
+startup.m   
+             -  MATLAB startup file, MUST be called before using MDAPACK.
+                This can be accomplished either by running it manually or
+                by starting MATLAB from within the directory containing
+                this file.
+
+mdapack.m   
+             -  Contains all necessary instructions to run one or multiple
+                experiments with MDAPACK. This can be regarded as the
+                "executable" of MDAPACK.
+
+mdapack_ex[N].m
+             - Examples running some data assimilation experiments. Please
+               have a look into the respective files.
+
+===========================================================================
+(3) Program Structure
+===========================================================================
+
+The program is divided into three major parts:
+ (1) Filters (directory "+filters")
+     These are the methods one can use to perform data assimilation. The
+     most recent implementations are found in the "Pajonk" folder. AREnKF
+     is the most sophisticated EnKF implementation, LPCU is the PCE-based
+     updating method. Especially AREnKF has a lot of options to control the
+     algorithm. The other algorithms (KF, MHF, and the Evensen and Mandel
+     implementations are for comparison).
+
+ (2) Models (directory "+models")
+     This is pretty much self-explanatory: there are several models which
+     can be used for data assimilation experiments. Note that not every
+     model supports every representation. The model is used for 
+     advancing the representation and the truth, and to create simulated
+     evidence.
+     
+ (3) Representations (directory "+representations")
+     There are basically two representations: "Ensemble" and "PCE".
+
+Results of "batch" experiments are usually put into "results/current". The
+other directories can be considered as "internal stuff" and are not easily
+understood.
+
+===========================================================================
+(4) "Third party" and "tools" software
+===========================================================================
+
+Some of the "+tools" are NOT developed by the author but by other
+authors. Therefore the license of MDAPACK does EXPLICITLY NOT APPLY to the
+"+tools". Please look inside those files for information on authors and
+licenses. However, they have been made available by the respective authors
+free of charge (possibly even as public domain) and are therefore included
+in MDAPACK.
+
+===========================================================================
+(5) More detailed introduction (slightly out of date)
+===========================================================================
+
+The way this program can be used is as follows (the files "mdapack_*.m"
+contain ready-to-run examples - just call them):
+
+You have to fill a "parameters" structure with all the
+information on the experiment(s) you want to run. You can prepare
+multiple experiments at a time: choosing e.g. one model and two filters
+(with maybe different settings) will run all possible combinations
+of filters and models as a batch call and store the results in MAT files
+in the "results/current" directory. The parameter set for an experiment
+is stored along with the results in the same file to avoid any
+confusion.
+
+The "parameters" structure works as follows:
+ + You have to choose a representation (PCE or Ensemble) and tell it the
+   "order" (PCE-order for PCE, sample size for Ensemble)
+ + You have to choose one or more model(s) and pass parameters to control
+   the experiment (e.g. schedule [spin up period, measurement frequency,
+   forecast period], random number generators to make reproducible
+   experiments, ...)
+ + You have to choose one or more methods which should compute updates, and
+   pass options (e.g. enable/disable some features)
+ + You have to set global options what kind of statistical output MDAPACK
+   should produce from the assimilation runs.
+
+Finally you have to choose one of two "controllers": singleRun and
+multiRun.
+ - singleRun is to perform a single, typically local, experiment with
+   live graphics. It will not save statistical results and always just run
+   a single repetition of each experiment.
+ - multiRun is to perform batchcall experiments, typically on clusters.
+   It will save statistical results and perform all repetitions. However,
+   all graphics are disabled. If you have setup a matlabpool, MDAPACK will
+   use it to do repetitions in parallel.
+
+
+===========================================================================
+(6) Commands
+===========================================================================
+
+It is possbile to interact with a running multiRun call via creating
+special files in the current working directory, e.g. by
+
+"touch <filename>".
+
+Note that the files are deleted once they have been recognized by MDAPACK.
+
+
+MDAPACK.stopcomputation
+             -  If multiRun.m finds this file in PWD, the repetition of
+                experiments is stopped when all current parallel
+                experiments are finished. Then these runs are saved or
+                statistics are computed from those successful runs.

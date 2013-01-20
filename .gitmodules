@@ -1,0 +1,3 @@
+[submodule "thirdparty/sglib"]
+	path = thirdparty/sglib
+	url = git://github.com/ezander/sglib.git
