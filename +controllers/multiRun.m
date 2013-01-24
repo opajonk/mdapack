@@ -20,6 +20,9 @@ end
 
 timings = zeros(workers,1);
 
+if (exist('state', 'dir')==0)
+    mkdir('.','state');
+end
 save('state/settings.mat','parms','steps','workers','-v7.3');
 
 for k = 1:steps

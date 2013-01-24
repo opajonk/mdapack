@@ -32,7 +32,7 @@ classdef Ensemble < representations.Representation
             p.addParamValue('initialEnsembleFileName', '', @(x) isa(x,'char'));
             p.addParamValue('samplingOrder', 2, @(x) any(find([0,1,2] == x)));
             p.addParamValue('pceOrder', 1, @(x)x>=1)
-            p.addParamValue('rndStream', RandStream('mt19937ar','Seed', tools.shuffleSeed), @(x) isa(x,'RandStream'));
+            p.addParamValue('rndStream', RandStream('mt19937ar','Seed', now()), @(x) isa(x,'RandStream'));
             
             p.parse(model, varargin{:});
             

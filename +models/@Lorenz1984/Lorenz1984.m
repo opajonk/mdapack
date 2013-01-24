@@ -116,7 +116,7 @@ classdef Lorenz1984 < models.Model
             p.addParamValue('plotPDF', false, @(x) isa(x,'logical')); % if yes, plot a PDF estimate in 2D mode
             p.addParamValue('measurementOperator', @(x) this.defaultMeasurementOperator(x), @(f) isa(f,'function_handle'));
             
-            p.addParamValue('evidenceNoiseRng', RandStream('mt19937ar','Seed',tools.shuffleSeed), @(x) isa(x,'RandStream'));
+            p.addParamValue('evidenceNoiseRng', RandStream('mt19937ar','Seed', now()), @(x) isa(x,'RandStream'));
             
             p.parse(varargin{:});
             

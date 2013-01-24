@@ -27,7 +27,7 @@ classdef PCE < representations.Representation
             p.addParamValue('pceOrder', 1, @(x)x>=0)
             p.addParamValue('sampleSize', 1000, @(x)x>=10)
             p.addParamValue('samplingOrder', 2, @(x) any(find([0,1,2] == x)));
-            p.addParamValue('rndStream', RandStream('mt19937ar','Seed',tools.shuffleSeed), @(x) isa(x,'RandStream'));
+            p.addParamValue('rndStream', RandStream('mt19937ar','Seed', now()), @(x) isa(x,'RandStream'));
             
             p.parse(model, varargin{:});
             
