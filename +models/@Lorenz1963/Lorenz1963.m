@@ -134,7 +134,7 @@ classdef Lorenz1963 < models.Model
             p.addParamValue('plot2dDim', 1, @(x) any(find([1,2,3,4,5,6] == x)));
             p.addParamValue('plotPDF', false, @(x) isa(x,'logical')); % if yes, plot a PDF estimate in 2D mode
             p.addParamValue('measurementOperator', @(x) this.defaultMeasurementOperator(x), @(f) isa(f,'function_handle'));
-            p.addParamValue('evidenceNoiseRng', RandStream('mt19937ar','Seed',tools.shuffleSeed), @(x) isa(x,'RandStream'));
+            p.addParamValue('evidenceNoiseRng', RandStream('mt19937ar','Seed', now()), @(x) isa(x,'RandStream'));
             
             % If yes, plot the truth and the measurement into a global figure
             % This is meant to be used with
